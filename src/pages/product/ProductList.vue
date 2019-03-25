@@ -52,7 +52,7 @@
         </div>
         <span style="float: right; margin-top: 3px;">
           <a-button type="primary">查询</a-button>
-          <a-button style="margin-left: 8px">重置</a-button>
+          <a-button @click="addNew" type="primary">新建</a-button>
           <a @click="toggleAdvanced" style="margin-left: 8px">
             {{advanced ? '收起' : '展开'}}
             <a-icon :type="advanced ? 'up' : 'down'" />
@@ -61,31 +61,16 @@
       </a-form>
     </div>
     <div>
-      <div class="operator">
-        <a-button @click="addNew" type="primary">新建</a-button>
-        <a-button >批量操作</a-button>
-        <a-dropdown>
-          <a-menu @click="handleMenuClick" slot="overlay">
-            <a-menu-item key="delete">删除</a-menu-item>
-            <a-menu-item key="audit">审批</a-menu-item>
-          </a-menu>
-          <a-button>
-            更多操作 <a-icon type="down" />
-          </a-button>
-        </a-dropdown>
-      </div>
-      <standard-table
+      <product-table
         :columns="columns"
         :dataSource="dataSource"
-        :selectedRows="selectedRows"
-        @change="onchange"
       />
     </div>
   </a-card>
 </template>
 
 <script>
-import StandardTable from '../../components/table/StandardTable'
+import ProductTable from '../../components/table/ProductTable'
 import AInput from "ant-design-vue/es/input/Input";
 const columns = [
   {
@@ -103,13 +88,17 @@ const columns = [
   },
   {
     title: '状态',
-    dataIndex: 'status',
-    needTotal: true
+    dataIndex: 'status'
   },
   {
     title: '上架时间',
     dataIndex: 'createTime',
     sorter: true
+  },
+  {
+    title: '操作',
+    key: 'operation',
+    scopedSlots: { customRender: 'operation' }
   }
 ]
 
@@ -128,27 +117,17 @@ for (let i = 0; i < 100; i++) {
 
 export default {
   name: 'ProductList',
-  components: {AInput, StandardTable},
+  components: {AInput, ProductTable},
   data () {
     return {
       advanced: true,
       columns: columns,
-      dataSource: dataSource,
-      selectedRowKeys: [],
-      selectedRows: []
+      dataSource: dataSource
     }
   },
   methods: {
     toggleAdvanced () {
       this.advanced = !this.advanced
-    },
-    onchange (selectedRowKeys, selectedRows) {
-      this.selectedRowKeys = selectedRowKeys
-      this.selectedRows = selectedRows
-    },
-    remove () {
-      this.dataSource = this.dataSource.filter(item => this.selectedRowKeys.indexOf(item.key) < 0)
-      this.selectedRows = this.selectedRows.filter(item => this.selectedRowKeys.indexOf(item.key) < 0)
     },
     addNew () {
       alert('add new row' + new Date())
@@ -160,11 +139,6 @@ export default {
         status: Math.floor(Math.random() * 10) % 4,
         updatedAt: '2018-07-26'
       })*/
-    },
-    handleMenuClick (e) {
-      if (e.key === 'delete') {
-        this.remove()
-      }
     }
   }
 }

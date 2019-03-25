@@ -219,6 +219,13 @@ export default new Router({
               name: '商品列表',
               component: () => import('@/pages/product/ProductList'),
               icon: 'none'
+            },
+            {
+              path: '/product/detail',
+              name: '商品详情',
+              component: () => import('@/pages/product/ProductDetail'),
+              icon: 'none',
+              invisible: true
             }
           ]
         }
