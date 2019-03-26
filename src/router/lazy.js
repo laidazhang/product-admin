@@ -226,6 +226,13 @@ export default new Router({
               component: () => import('@/pages/product/ProductDetail'),
               icon: 'none',
               invisible: true
+            },
+            {
+              path: '/product/create',
+              name: '新增商品',
+              component: () => import('@/pages/product/ProductForm'),
+              icon: 'none',
+              invisible: true
             }
           ]
         }

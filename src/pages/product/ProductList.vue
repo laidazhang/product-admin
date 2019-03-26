@@ -130,15 +130,7 @@ export default {
       this.advanced = !this.advanced
     },
     addNew () {
-      alert('add new row' + new Date())
-      /*this.dataSource.unshift({
-        key: this.dataSource.length,
-        no: 'NO ' + this.dataSource.length,
-        description: '这是一段描述',
-        callNo: Math.floor(Math.random() * 1000),
-        status: Math.floor(Math.random() * 10) % 4,
-        updatedAt: '2018-07-26'
-      })*/
+      this.$router.push({ path: '/product/create'})
     }
   }
 }
